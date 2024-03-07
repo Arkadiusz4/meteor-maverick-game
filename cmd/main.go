@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Arkadiusz4/meteor-maverick-game/game"
 	_ "github.com/Arkadiusz4/meteor-maverick-game/game"
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -13,7 +14,7 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	screen.DrawImage(PlayerSprite, nil)
+	screen.DrawImage(game.PlayerSprite, nil)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
