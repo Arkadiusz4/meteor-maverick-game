@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "github.com/Arkadiusz4/meteor-maverick-game/game"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
