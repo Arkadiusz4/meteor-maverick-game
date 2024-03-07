@@ -1,4 +1,4 @@
-module meteor-maverick
+module github.com/Arkadiusz4/meteor-maverick-game
 
 go 1.21.3
 
