@@ -4,6 +4,7 @@ import (
 	"github.com/Arkadiusz4/meteor-maverick-game/game"
 	_ "github.com/Arkadiusz4/meteor-maverick-game/game"
 	"github.com/hajimehoshi/ebiten/v2"
+	_ "image/png"
 )
 
 type Game struct {

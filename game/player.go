@@ -2,19 +2,16 @@ package game
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
-	"image"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	_ "image/png"
 )
 
 var PlayerSprite = mustLoadImage("assets/player.png")
 
 func mustLoadImage(name string) *ebiten.Image {
-	f, err := assets.Open(name)
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-
-	img, _, err := image.Decode(f)
+	var err error
+	var img *ebiten.Image
+	img, _, err = ebitenutil.NewImageFromFile(name)
 	if err != nil {
 		panic(err)
 	}
