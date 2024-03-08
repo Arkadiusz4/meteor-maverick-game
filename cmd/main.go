@@ -8,32 +8,17 @@ import (
 )
 
 type Game struct {
-	playerPosition game.Vector
+	player *game.Player
 }
 
 func (g *Game) Update() error {
-	speed := 5.0
-
-	if ebiten.IsKeyPressed(ebiten.KeyDown) {
-		g.playerPosition.Y += speed
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyUp) {
-		g.playerPosition.Y -= speed
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-		g.playerPosition.X -= speed
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyRight) {
-		g.playerPosition.X += speed
-	}
+	g.player.Update()
 
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(g.playerPosition.X, g.playerPosition.Y)
-	screen.DrawImage(game.PlayerSprite, op)
+	g.player.Draw(screen)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
@@ -41,12 +26,4 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func main() {
-	g := &Game{
-		playerPosition: game.Vector{X: 100, Y: 100},
-	}
-
-	err := ebiten.RunGame(g)
-	if err != nil {
-		panic(err)
-	}
 }
