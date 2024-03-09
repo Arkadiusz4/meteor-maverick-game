@@ -9,6 +9,7 @@ import (
 var assets embed.FS
 
 var PlayerSprite = mustLoadImage("assets/player.png")
+var MeteorSprites = mustLoadImage("assets/meteors/*.png")
 
 func mustLoadImage(name string) *ebiten.Image {
 	var err error
