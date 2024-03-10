@@ -14,9 +14,10 @@ type Meteor struct {
 var meteorSprites = assets.MeteorSprites
 
 func NewMeteor() *Meteor {
-	sprite := *meteorSprites[rand.Intn(len(meteorSprites))]
+	sprite := meteorSprites[rand.Intn(len(meteorSprites))]
+
 	return &Meteor{
 		position: Vector{},
-		sprite:   *sprite, // Dereference the pointer here
+		sprite:   sprite,
 	}
 }
