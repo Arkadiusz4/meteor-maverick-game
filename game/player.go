@@ -8,12 +8,14 @@ import (
 )
 
 type Player struct {
+	game *Game
+
 	position Vector
 	sprite   *ebiten.Image
 	rotation float64
 }
 
-func NewPlayer() *Player {
+func NewPlayer(game *Game) *Player {
 	sprite := assets.PlayerSprite
 
 	bounds := sprite.Bounds()
@@ -26,6 +28,7 @@ func NewPlayer() *Player {
 	}
 
 	return &Player{
+		game:     game,
 		position: position,
 		sprite:   sprite,
 		rotation: 0,
