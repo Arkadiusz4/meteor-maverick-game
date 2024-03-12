@@ -1,6 +1,9 @@
 package game
 
-import "github.com/hajimehoshi/ebiten/v2"
+import (
+	"github.com/hajimehoshi/ebiten/v2"
+	"time"
+)
 
 const (
 	ScreenWidth  = 800
@@ -14,7 +17,9 @@ type Game struct {
 }
 
 func NewGame() *Game {
-	g := &Game{}
+	g := &Game{
+		meteorSpawnTime: NewTimer(1 * time.Second),
+	}
 
 	g.player = NewPlayer(g)
 

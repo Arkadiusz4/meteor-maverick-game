@@ -14,7 +14,7 @@ type Meteor struct {
 	sprite   *ebiten.Image
 }
 
-var meteorSprites = assets.MeteorSprites
+//var meteorSprites = assets.MeteorSprites
 
 func NewMeteor() *Meteor {
 	target := Vector{
@@ -45,7 +45,16 @@ func NewMeteor() *Meteor {
 		Y: normalizedDirection.Y * velocity,
 	}
 
-	sprite := meteorSprites[rand.Intn(len(meteorSprites))]
+	//sprite := assets.MeteorSprites[rand.Intn(len(assets.MeteorSprites))]
+
+	if len(assets.MeteorSprites) == 0 {
+		// Handle the case where there are no sprites available
+		panic("No meteor sprites available")
+	}
+
+	// Generate a random index within the range of available sprites
+	spriteIndex := rand.Intn(len(assets.MeteorSprites))
+	sprite := assets.MeteorSprites[spriteIndex]
 
 	return &Meteor{
 		position: pos,
