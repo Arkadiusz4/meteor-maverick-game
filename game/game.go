@@ -1,7 +1,11 @@
 package game
 
 import (
+	"fmt"
+	"github.com/Arkadiusz4/meteor-maverick-game/assets"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text"
+	"image/color"
 	"time"
 )
 
@@ -15,6 +19,8 @@ type Game struct {
 	meteorSpawnTime *Timer
 	meteors         []*Meteor
 	bullets         []*Bullet
+
+	score int
 }
 
 func NewGame() *Game {
@@ -51,6 +57,7 @@ func (g *Game) Update() error {
 			if m.Collider().Intersects(b.Collider()) {
 				g.meteors = append(g.meteors[:i], g.meteors[i+1:]...)
 				g.bullets = append(g.bullets[:j], g.bullets[j+1:]...)
+				g.score++
 			}
 		}
 	}
@@ -75,12 +82,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for _, b := range g.bullets {
 		b.Draw(screen)
 	}
+
+	text.Draw(screen, fmt.Sprintf("%06d", g.score), assets.ScoreFont, ScreenWidth/2-100, 50, color.White)
 }
 
 func (g *Game) Reset() {
 	g.player = NewPlayer(g)
 	g.meteors = nil
 	g.bullets = nil
+	g.score = 0
 }
 
 func (g *Game) AddBullet(b *Bullet) {
