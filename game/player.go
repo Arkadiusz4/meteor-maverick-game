@@ -5,6 +5,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	_ "image/png"
 	"math"
+	"time"
 )
 
 type Player struct {
@@ -13,6 +14,8 @@ type Player struct {
 	position Vector
 	sprite   *ebiten.Image
 	rotation float64
+
+	shootCooldown *Timer
 }
 
 func NewPlayer(game *Game) *Player {
@@ -28,10 +31,11 @@ func NewPlayer(game *Game) *Player {
 	}
 
 	return &Player{
-		game:     game,
-		position: position,
-		sprite:   sprite,
-		rotation: 0,
+		game:          game,
+		position:      position,
+		sprite:        sprite,
+		rotation:      0,
+		shootCooldown: NewTimer(time.Millisecond * 500),
 	}
 }
 
@@ -60,6 +64,23 @@ func (p *Player) Update() {
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyRight) {
 		p.rotation += speed
+	}
+
+	p.shootCooldown.Update()
+	if p.shootCooldown.IsReady() && ebiten.IsKeyPressed(ebiten.KeySpace) {
+		p.shootCooldown.Reset()
+
+		bounds := p.sprite.Bounds()
+		halfW := float64(bounds.Dx()) / 2
+		halfH := float64(bounds.Dy()) / 2
+
+		spawnPos := Vector{
+			p.position.X + halfW + math.Sin(p.rotation)*50.0,
+			p.position.Y + halfH + math.Cos(p.rotation)*-50.0,
+		}
+
+		bullet := NewBullet(spawnPos, p.rotation)
+		p.game.AddBullet(bullet)
 	}
 }
 

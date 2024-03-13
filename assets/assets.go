@@ -11,6 +11,7 @@ import (
 var assets embed.FS
 
 var PlayerSprite = mustLoadImage("assets/player.png")
+var LaserSprite = mustLoadImage("assets/laserBlue.png")
 var MeteorSprites = mustLoadImages("assets/meteors")
 
 func mustLoadImage(name string) *ebiten.Image {
