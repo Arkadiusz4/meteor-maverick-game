@@ -84,12 +84,6 @@ func (p *Player) Update() {
 	}
 }
 
-//func (p *Player) Draw(screen *ebiten.Image) {
-//	op := &ebiten.DrawImageOptions{}
-//	op.GeoM.Translate(p.position.X, p.position.Y)
-//	screen.DrawImage(p.sprite, op)
-//}
-
 func (p *Player) Draw(screen *ebiten.Image) {
 	bounds := p.sprite.Bounds()
 	halfW := float64(bounds.Dx()) / 2
@@ -103,4 +97,10 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	op.GeoM.Translate(p.position.X, p.position.Y)
 
 	screen.DrawImage(p.sprite, op)
+}
+
+func (p *Player) Collider() Rect {
+	bounds := p.sprite.Bounds()
+
+	return NewRect(p.position.X, p.position.Y, float64(bounds.Dx()), float64(bounds.Dy()))
 }
