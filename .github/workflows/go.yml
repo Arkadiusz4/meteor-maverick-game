@@ -29,7 +29,7 @@ jobs:
         run: |
           go get github.com/hajimehoshi/ebiten/v2
           go get github.com/stretchr/testify
-          sudo apt-get install libxrandr-dev libgl1-mesa-dev libxcursor-dev libxinerama-dev libxi-dev
+          sudo apt-get install libxrandr-dev libgl1-mesa-dev libxcursor-dev libxinerama-dev libxi-dev libxxf86vm-dev
 
       - name: Build
         run: go build -v ./...
