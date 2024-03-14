@@ -3,24 +3,28 @@ package assets
 import (
 	"embed"
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
-	"io/ioutil"
-	"path/filepath"
+	"image"
+	"io/fs"
 )
 
+//go:embed *
 var assets embed.FS
 
-var PlayerSprite = mustLoadImage("../assets/player.png")
-var LaserSprite = mustLoadImage("../assets/laserBlue.png")
-var MeteorSprites = mustLoadImages("../assets/meteors")
-var ScoreFont = mustLoadFont("../assets/font.ttf")
+var PlayerSprite = mustLoadImage("player.png")
+var LaserSprite = mustLoadImage("laserBlue.png")
+var MeteorSprites = mustLoadImages("meteors/*.png")
+var ScoreFont = mustLoadFont("font.ttf")
 
 func mustLoadImage(name string) *ebiten.Image {
-	var err error
-	var img *ebiten.Image
-	img, _, err = ebitenutil.NewImageFromFile(name)
+	f, err := assets.Open(name)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	img, _, err := image.Decode(f)
 	if err != nil {
 		panic(err)
 	}
@@ -29,37 +33,34 @@ func mustLoadImage(name string) *ebiten.Image {
 }
 
 func mustLoadImages(path string) []*ebiten.Image {
-	files, err := ioutil.ReadDir(path)
+	matches, err := fs.Glob(assets, path)
 	if err != nil {
 		panic(err)
 	}
 
-	var images []*ebiten.Image
-	for _, file := range files {
-		if !file.IsDir() {
-			imagePath := filepath.Join(path, file.Name())
-			img := mustLoadImage(imagePath)
-			images = append(images, img)
-		}
+	images := make([]*ebiten.Image, len(matches))
+	for i, match := range matches {
+		images[i] = mustLoadImage(match)
 	}
 
 	return images
 }
 
 func mustLoadFont(filePath string) font.Face {
-	fontData, err := ioutil.ReadFile(filePath)
+	f, err := assets.ReadFile(filePath)
 	if err != nil {
 		panic(err)
 	}
 
-	parseFont, err := opentype.Parse(fontData)
+	tt, err := opentype.Parse(f)
 	if err != nil {
 		panic(err)
 	}
 
-	face, err := opentype.NewFace(parseFont, &opentype.FaceOptions{
-		Size: 48,
-		DPI:  72,
+	face, err := opentype.NewFace(tt, &opentype.FaceOptions{
+		Size:    48,
+		DPI:     72,
+		Hinting: font.HintingVertical,
 	})
 	if err != nil {
 		panic(err)
