@@ -12,10 +12,10 @@ import (
 
 var assets embed.FS
 
-var PlayerSprite = mustLoadImage("assets/player.png")
-var LaserSprite = mustLoadImage("assets/laserBlue.png")
-var MeteorSprites = mustLoadImages("assets/meteors")
-var ScoreFont = mustLoadFont("assets/font.ttf")
+var PlayerSprite = mustLoadImage("../assets/player.png")
+var LaserSprite = mustLoadImage("../assets/laserBlue.png")
+var MeteorSprites = mustLoadImages("../assets/meteors")
+var ScoreFont = mustLoadFont("../assets/font.ttf")
 
 func mustLoadImage(name string) *ebiten.Image {
 	var err error

@@ -13,39 +13,39 @@ func TestNewTimer(t *testing.T) {
 	duration := time.Second
 	timer := game.NewTimer(duration)
 	assert.NotNil(t, timer)
-	assert.Equal(t, int(duration.Milliseconds())*ebiten.TPS()/1000, timer.targetTicks)
+	assert.Equal(t, int(duration.Milliseconds())*ebiten.TPS()/1000, timer.TargetTicks)
 }
 
 func TestTimerUpdate(t *testing.T) {
-	timer := game.Timer{currentTicks: 0, targetTicks: 10}
+	timer := game.Timer{CurrentTicks: 0, TargetTicks: 10}
 
 	timer.Update()
-	assert.Equal(t, 1, timer.currentTicks)
+	assert.Equal(t, 1, timer.CurrentTicks)
 
 	for i := 0; i < 10; i++ {
 		timer.Update()
 	}
-	assert.Equal(t, 10, timer.currentTicks)
+	assert.Equal(t, 10, timer.CurrentTicks)
 
 	for i := 0; i < 10; i++ {
 		timer.Update()
 	}
-	assert.Equal(t, 10, timer.currentTicks)
+	assert.Equal(t, 10, timer.CurrentTicks)
 }
 
 func TestTimerIsReady(t *testing.T) {
-	timer := game.Timer{currentTicks: 5, targetTicks: 10}
+	timer := game.Timer{CurrentTicks: 5, TargetTicks: 10}
 	assert.False(t, timer.IsReady())
 
-	timer.currentTicks = 10
+	timer.CurrentTicks = 10
 	assert.True(t, timer.IsReady())
 
-	timer.currentTicks = 15
+	timer.CurrentTicks = 15
 	assert.True(t, timer.IsReady())
 }
 
 func TestTimerReset(t *testing.T) {
-	timer := game.Timer{currentTicks: 10, targetTicks: 20}
+	timer := game.Timer{CurrentTicks: 10, TargetTicks: 20}
 	timer.Reset()
-	assert.Equal(t, 0, timer.currentTicks)
+	assert.Equal(t, 0, timer.CurrentTicks)
 }
