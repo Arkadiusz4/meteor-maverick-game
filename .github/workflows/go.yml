@@ -27,7 +27,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          go get .
           go get github.com/hajimehoshi/ebiten/v2
           go get github.com/stretchr/testify
 
