@@ -30,6 +30,7 @@ jobs:
           go get github.com/hajimehoshi/ebiten/v2
           go get github.com/stretchr/testify
           sudo apt-get install libxrandr-dev
+          sudo apt-get install libgl1-mesa-dev
 
       - name: Build
         run: go build -v ./...
