@@ -1,6 +1,7 @@
-package game
+package tests
 
 import (
+	"github.com/Arkadiusz4/meteor-maverick-game/game"
 	"github.com/hajimehoshi/ebiten/v2"
 	"testing"
 	"time"
@@ -10,13 +11,13 @@ import (
 
 func TestNewTimer(t *testing.T) {
 	duration := time.Second
-	timer := NewTimer(duration)
+	timer := game.NewTimer(duration)
 	assert.NotNil(t, timer)
 	assert.Equal(t, int(duration.Milliseconds())*ebiten.TPS()/1000, timer.targetTicks)
 }
 
 func TestTimerUpdate(t *testing.T) {
-	timer := Timer{currentTicks: 0, targetTicks: 10}
+	timer := game.Timer{currentTicks: 0, targetTicks: 10}
 
 	timer.Update()
 	assert.Equal(t, 1, timer.currentTicks)
@@ -33,7 +34,7 @@ func TestTimerUpdate(t *testing.T) {
 }
 
 func TestTimerIsReady(t *testing.T) {
-	timer := Timer{currentTicks: 5, targetTicks: 10}
+	timer := game.Timer{currentTicks: 5, targetTicks: 10}
 	assert.False(t, timer.IsReady())
 
 	timer.currentTicks = 10
@@ -44,7 +45,7 @@ func TestTimerIsReady(t *testing.T) {
 }
 
 func TestTimerReset(t *testing.T) {
-	timer := Timer{currentTicks: 10, targetTicks: 20}
+	timer := game.Timer{currentTicks: 10, targetTicks: 20}
 	timer.Reset()
 	assert.Equal(t, 0, timer.currentTicks)
 }

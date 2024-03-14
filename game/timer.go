@@ -6,27 +6,27 @@ import (
 )
 
 type Timer struct {
-	currentTicks int
-	targetTicks  int
+	CurrentTicks int
+	TargetTicks  int
 }
 
 func NewTimer(d time.Duration) *Timer {
 	return &Timer{
-		currentTicks: 0,
-		targetTicks:  int(d.Milliseconds()) * ebiten.TPS() / 1000,
+		CurrentTicks: 0,
+		TargetTicks:  int(d.Milliseconds()) * ebiten.TPS() / 1000,
 	}
 }
 
 func (t *Timer) Update() {
-	if t.currentTicks < t.targetTicks {
-		t.currentTicks++
+	if t.CurrentTicks < t.TargetTicks {
+		t.CurrentTicks++
 	}
 }
 
 func (t *Timer) IsReady() bool {
-	return t.currentTicks >= t.targetTicks
+	return t.CurrentTicks >= t.TargetTicks
 }
 
 func (t *Timer) Reset() {
-	t.currentTicks = 0
+	t.CurrentTicks = 0
 }
