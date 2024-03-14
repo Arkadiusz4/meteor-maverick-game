@@ -8,16 +8,10 @@ import (
 )
 
 func main() {
-	err := os.Setenv("DISPLAY", ":0")
+	err := os.Setenv("EBITEN_HEADLESS", "1")
 	if err != nil {
 		panic(err)
 	}
-
-	//ctx := glfw.Init()
-	//if ctx == nil {
-	//	panic("failed to initialize GLFW")
-	//}
-	//defer ctx.Terminate()
 
 	g := game.NewGame()
 
