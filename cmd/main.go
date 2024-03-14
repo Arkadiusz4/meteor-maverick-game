@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/Arkadiusz4/meteor-maverick-game/game"
 	"github.com/hajimehoshi/ebiten/v2"
-	_ "image/png"
+	_ "github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"os"
 )
 
@@ -12,6 +12,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	ebiten.SetWindowSize(640, 480)
+	ebiten.SetWindowTitle("Headless Mode")
 
 	g := game.NewGame()
 
