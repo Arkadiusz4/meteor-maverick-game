@@ -12,12 +12,12 @@ import (
 //go:embed *
 var assets embed.FS
 
-var PlayerSprite = mustLoadImage("player.png")
-var LaserSprite = mustLoadImage("laserBlue.png")
-var MeteorSprites = mustLoadImages("meteors/*.png")
-var ScoreFont = mustLoadFont("font.ttf")
+var PlayerSprite = MustLoadImage("player.png")
+var LaserSprite = MustLoadImage("laserBlue.png")
+var MeteorSprites = MustLoadImages("meteors/*.png")
+var ScoreFont = MustLoadFont("font.ttf")
 
-func mustLoadImage(name string) *ebiten.Image {
+func MustLoadImage(name string) *ebiten.Image {
 	f, err := assets.Open(name)
 	if err != nil {
 		panic(err)
@@ -32,7 +32,7 @@ func mustLoadImage(name string) *ebiten.Image {
 	return ebiten.NewImageFromImage(img)
 }
 
-func mustLoadImages(path string) []*ebiten.Image {
+func MustLoadImages(path string) []*ebiten.Image {
 	matches, err := fs.Glob(assets, path)
 	if err != nil {
 		panic(err)
@@ -40,13 +40,13 @@ func mustLoadImages(path string) []*ebiten.Image {
 
 	images := make([]*ebiten.Image, len(matches))
 	for i, match := range matches {
-		images[i] = mustLoadImage(match)
+		images[i] = MustLoadImage(match)
 	}
 
 	return images
 }
 
-func mustLoadFont(filePath string) font.Face {
+func MustLoadFont(filePath string) font.Face {
 	f, err := assets.ReadFile(filePath)
 	if err != nil {
 		panic(err)
