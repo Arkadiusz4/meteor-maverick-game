@@ -7,9 +7,9 @@ import (
 )
 
 type Bullet struct {
-	position Vector
-	rotation float64
-	sprite   *ebiten.Image
+	Position Vector
+	Rotation float64
+	Sprite   *ebiten.Image
 }
 
 func NewBullet(position Vector, rotation float64) *Bullet {
@@ -23,36 +23,36 @@ func NewBullet(position Vector, rotation float64) *Bullet {
 	position.Y -= halfH
 
 	return &Bullet{
-		position: position,
-		rotation: rotation,
-		sprite:   sprite,
+		Position: position,
+		Rotation: rotation,
+		Sprite:   sprite,
 	}
 }
 
 func (b *Bullet) Update() {
 	bulletSpeed := 350.0 / float64(ebiten.TPS())
 
-	b.position.X += math.Sin(b.rotation) * bulletSpeed
-	b.position.Y += math.Cos(b.rotation) * -bulletSpeed
+	b.Position.X += math.Sin(b.Rotation) * bulletSpeed
+	b.Position.Y += math.Cos(b.Rotation) * -bulletSpeed
 }
 
 func (b *Bullet) Draw(screen *ebiten.Image) {
-	bounds := b.sprite.Bounds()
+	bounds := b.Sprite.Bounds()
 	halfW := float64(bounds.Dx()) / 2
 	halfH := float64(bounds.Dy()) / 2
 
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(-halfW, -halfH)
-	op.GeoM.Rotate(b.rotation)
+	op.GeoM.Rotate(b.Rotation)
 	op.GeoM.Translate(halfW, halfH)
 
-	op.GeoM.Translate(b.position.X, b.position.Y)
+	op.GeoM.Translate(b.Position.X, b.Position.Y)
 
-	screen.DrawImage(b.sprite, op)
+	screen.DrawImage(b.Sprite, op)
 }
 
 func (b *Bullet) Collider() Rect {
-	bounds := b.sprite.Bounds()
+	bounds := b.Sprite.Bounds()
 
-	return NewRect(b.position.X, b.position.Y, float64(bounds.Dx()), float64(bounds.Dy()))
+	return NewRect(b.Position.X, b.Position.Y, float64(bounds.Dx()), float64(bounds.Dy()))
 }

@@ -11,11 +11,11 @@ import (
 type Player struct {
 	game *Game
 
-	position Vector
+	Position Vector
 	sprite   *ebiten.Image
-	rotation float64
+	Rotation float64
 
-	shootCooldown *Timer
+	ShootCooldown *Timer
 }
 
 func NewPlayer(game *Game) *Player {
@@ -32,54 +32,37 @@ func NewPlayer(game *Game) *Player {
 
 	return &Player{
 		game:          game,
-		position:      position,
+		Position:      position,
 		sprite:        sprite,
-		rotation:      0,
-		shootCooldown: NewTimer(time.Millisecond * 500),
+		Rotation:      0,
+		ShootCooldown: NewTimer(time.Millisecond * 500),
 	}
 }
-
-//func (p *Player) Update() {
-//	speed := 5.0
-//
-//	if ebiten.IsKeyPressed(ebiten.KeyDown) {
-//		p.position.Y += speed
-//	}
-//	if ebiten.IsKeyPressed(ebiten.KeyUp) {
-//		p.position.Y -= speed
-//	}
-//	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-//		p.position.X -= speed
-//	}
-//	if ebiten.IsKeyPressed(ebiten.KeyRight) {
-//		p.position.X += speed
-//	}
-//}
 
 func (p *Player) Update() {
 	speed := math.Pi / float64(ebiten.TPS())
 
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-		p.rotation -= speed
+		p.Rotation -= speed
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyRight) {
-		p.rotation += speed
+		p.Rotation += speed
 	}
 
-	p.shootCooldown.Update()
-	if p.shootCooldown.IsReady() && ebiten.IsKeyPressed(ebiten.KeySpace) {
-		p.shootCooldown.Reset()
+	p.ShootCooldown.Update()
+	if p.ShootCooldown.IsReady() && ebiten.IsKeyPressed(ebiten.KeySpace) {
+		p.ShootCooldown.Reset()
 
 		bounds := p.sprite.Bounds()
 		halfW := float64(bounds.Dx()) / 2
 		halfH := float64(bounds.Dy()) / 2
 
 		spawnPos := Vector{
-			p.position.X + halfW + math.Sin(p.rotation)*50.0,
-			p.position.Y + halfH + math.Cos(p.rotation)*-50.0,
+			p.Position.X + halfW + math.Sin(p.Rotation)*50.0,
+			p.Position.Y + halfH + math.Cos(p.Rotation)*-50.0,
 		}
 
-		bullet := NewBullet(spawnPos, p.rotation)
+		bullet := NewBullet(spawnPos, p.Rotation)
 		p.game.AddBullet(bullet)
 	}
 }
@@ -91,10 +74,10 @@ func (p *Player) Draw(screen *ebiten.Image) {
 
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(-halfW, -halfH)
-	op.GeoM.Rotate(p.rotation)
+	op.GeoM.Rotate(p.Rotation)
 	op.GeoM.Translate(halfW, halfH)
 
-	op.GeoM.Translate(p.position.X, p.position.Y)
+	op.GeoM.Translate(p.Position.X, p.Position.Y)
 
 	screen.DrawImage(p.sprite, op)
 }
@@ -102,5 +85,5 @@ func (p *Player) Draw(screen *ebiten.Image) {
 func (p *Player) Collider() Rect {
 	bounds := p.sprite.Bounds()
 
-	return NewRect(p.position.X, p.position.Y, float64(bounds.Dx()), float64(bounds.Dy()))
+	return NewRect(p.Position.X, p.Position.Y, float64(bounds.Dx()), float64(bounds.Dy()))
 }
