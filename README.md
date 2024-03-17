@@ -37,6 +37,22 @@ go run cmd/main.go
 - **Arrow Keys**: Move the spaceship
 - **Spacebar**: Fire primary weapon
 
+## Testing
+
+This project includes unit tests to ensure its functionality remains intact. The tests are located in the tests
+directory and can be run using the following command:
+
+```bash
+cd tests
+```
+
+```bash
+go test ./...
+```
+
+Additionally, continuous integration (**GitHub Actions**) is set up to run these tests automatically every day to
+maintain the project's stability and reliability.
+
 ## Contributing
 
 Contributions to Meteor Maverick are welcome! If you encounter any bugs or have suggestions for improvements, please
