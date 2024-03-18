@@ -8,6 +8,8 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
+    env:
+      DISPLAY: ':99.0'
 
     steps:
       - name: Checkout Repository
